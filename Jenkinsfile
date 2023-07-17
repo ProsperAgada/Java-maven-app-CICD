@@ -3,18 +3,8 @@ pipeline {
     tools {
         maven "Maven"
     }
-    parameters{
-        choice(name: "VERSION", choices:['1.0','2.0','3.0','5.0'], description: '')
-        booleanParam(name: "excuteTests", defaultValue: true, description: '')
-    }
     stages {
         stage('build jar') {
-            when {
-                expression {
-                    params.executeTests
-                }
-                            
-            }
             steps {
                 echo "building application..."
                 sh "mvn package"            
@@ -31,8 +21,7 @@ pipeline {
         }
         stage('deploy') {
             steps {
-             echo "Hello this is a deploy stage" 
-             echo "Deploying verson ${params.VERSION}"
+             echo "this is the deploystage"
             }
         }
                 

@@ -13,16 +13,19 @@ pipeline {
         stage('build image') {
             steps {
                 echo "building docker image"
-                sh 'docker build -t agasprosper/java-maven-app:0.10'
-            
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        sh 'docker build -t agasprosper/java-maven-app:${BUILD_ID} .'
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+                        sh 'docker push agasprosper/java-maven-app:${BUILD_ID}'
+                    }
+                }
             } 
         }
         stage('deploy') {
             steps {
-             echo "this is the deploystage" 
-
+                echo "this is the deploy stage" 
             }
         }
-                
     }
 }

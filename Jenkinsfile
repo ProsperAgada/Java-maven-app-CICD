@@ -14,7 +14,7 @@ pipeline {
             steps {
                 echo "building docker image"
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                         sh 'docker build -t agasprosper/java-maven-app:${BUILD_ID} .'
                         sh "echo $PASS | docker login -u $USER --password-stdin"
                         sh 'docker push agasprosper/java-maven-app:${BUILD_ID}'
